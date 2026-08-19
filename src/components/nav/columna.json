@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_nav_columnas",
+  "info": {
+    "displayName": "Columna de enlaces",
+    "description": "Grupo de enlaces con título: sirve para el mega menú y para el footer",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "titulo": { "type": "string", "required": true },
+    "enlaces": { "type": "component", "repeatable": true, "component": "shared.enlace" }
+  }
+}

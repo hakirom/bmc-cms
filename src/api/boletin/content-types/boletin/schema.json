@@ -7,20 +7,98 @@
     "displayName": "Boletín",
     "description": "Boletines del mercado y estudios económicos"
   },
-  "options": { "draftAndPublish": true },
+  "options": {
+    "draftAndPublish": true
+  },
   "attributes": {
-    "titulo": { "type": "string", "required": true, "maxLength": 200 },
-    "slug": { "type": "uid", "targetField": "titulo", "required": true },
-    "fecha": { "type": "date", "required": true },
-    "resumen": { "type": "text", "required": true, "maxLength": 400 },
-    "contenido": { "type": "blocks" },
+    "titulo": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "titulo",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "fecha": {
+      "type": "date",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "resumen": {
+      "type": "text",
+      "required": true,
+      "maxLength": 400,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "contenido": {
+      "type": "blocks",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
     "categoria": {
       "type": "enumeration",
-      "enum": ["boletin-diario", "estudio-economico", "comunicado"],
+      "enum": [
+        "boletin-diario",
+        "estudio-economico",
+        "comunicado"
+      ],
       "default": "boletin-diario",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
-    "adjunto": { "type": "media", "multiple": false, "allowedTypes": ["files", "images"] },
-    "destacado": { "type": "boolean", "default": false }
+    "adjunto": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files",
+        "images"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "destacado": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    }
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
   }
 }

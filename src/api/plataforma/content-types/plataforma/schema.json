@@ -7,17 +7,72 @@
     "displayName": "Plataforma",
     "description": "Plataformas de la BMC: negociación, registro, liquidación, datos y programas"
   },
-  "options": { "draftAndPublish": true },
+  "options": {
+    "draftAndPublish": true
+  },
   "attributes": {
-    "titulo": { "type": "string", "required": true, "unique": true, "maxLength": 120 },
-    "slug": { "type": "uid", "targetField": "titulo", "required": true },
-    "descripcion": { "type": "text", "required": true, "maxLength": 500 },
+    "titulo": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 120,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "titulo",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "descripcion": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
     "icono": {
       "type": "enumeration",
-      "enum": ["exchange", "clipboard", "scale", "chart", "sprout"],
+      "enum": [
+        "exchange",
+        "clipboard",
+        "scale",
+        "chart",
+        "sprout"
+      ],
       "default": "exchange",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
-    "orden": { "type": "integer", "default": 0, "min": 0 }
+    "orden": {
+      "type": "integer",
+      "default": 0,
+      "min": 0,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    }
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
   }
 }

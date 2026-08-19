@@ -7,19 +7,127 @@
     "displayName": "Home",
     "description": "Contenido editable de la página de inicio"
   },
-  "options": { "draftAndPublish": true },
+  "options": {
+    "draftAndPublish": true
+  },
   "attributes": {
-    "eyebrow": { "type": "string", "required": true, "maxLength": 80 },
-    "titulo": { "type": "string", "required": true, "maxLength": 160 },
-    "subtitulo": { "type": "text", "required": true },
-    "ctaPrimario": { "type": "string", "required": true },
-    "ctaSecundario": { "type": "string" },
-    "tituloServicios": { "type": "string", "required": true },
-    "introServicios": { "type": "text", "required": true },
-    "tituloValor": { "type": "string", "required": true },
-    "cifras": { "type": "component", "repeatable": true, "component": "home.cifra" },
-    "mensajesValor": { "type": "component", "repeatable": true, "component": "home.mensaje-valor" },
-    "tarjetasContacto": { "type": "component", "repeatable": true, "component": "home.tarjeta-contacto" },
-    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" }
+    "eyebrow": {
+      "type": "string",
+      "required": true,
+      "maxLength": 80,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "titulo": {
+      "type": "string",
+      "required": true,
+      "maxLength": 160,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "subtitulo": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "ctaPrimario": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "ctaSecundario": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tituloServicios": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "introServicios": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tituloValor": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "cifras": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.cifra",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "mensajesValor": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.mensaje-valor",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tarjetasContacto": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.tarjeta-contacto",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
   }
 }

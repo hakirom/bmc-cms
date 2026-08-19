@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_certificaciones",
+  "info": {
+    "displayName": "Certificación",
+    "description": "Sello o certificado mostrado en el pie de página",
+    "icon": "shield"
+  },
+  "options": {},
+  "attributes": {
+    "etiqueta": { "type": "string", "required": true, "default": "Certificado:" },
+    "codigo": { "type": "string", "required": true }
+  }
+}

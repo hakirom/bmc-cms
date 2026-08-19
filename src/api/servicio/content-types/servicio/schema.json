@@ -7,18 +7,80 @@
     "displayName": "Servicio",
     "description": "Bloques de la sección Nuestros servicios"
   },
-  "options": { "draftAndPublish": true },
+  "options": {
+    "draftAndPublish": true
+  },
   "attributes": {
-    "titulo": { "type": "string", "required": true, "unique": true, "maxLength": 160 },
-    "slug": { "type": "uid", "targetField": "titulo", "required": true },
-    "descripcion": { "type": "text", "required": true },
+    "titulo": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 160,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "titulo",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "descripcion": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
     "icono": {
       "type": "enumeration",
-      "enum": ["exchange", "coins", "chart", "sprout"],
+      "enum": [
+        "exchange",
+        "coins",
+        "chart",
+        "sprout"
+      ],
       "default": "exchange",
-      "required": true
+      "required": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     },
-    "orden": { "type": "integer", "default": 0, "min": 0 },
-    "enlaces": { "type": "component", "repeatable": true, "component": "shared.enlace" }
+    "orden": {
+      "type": "integer",
+      "default": 0,
+      "min": 0,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "enlaces": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.enlace",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
   }
 }

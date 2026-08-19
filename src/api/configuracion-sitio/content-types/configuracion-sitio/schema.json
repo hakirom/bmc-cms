@@ -1,0 +1,70 @@
+{
+  "kind": "singleType",
+  "collectionName": "configuracion_sitio",
+  "info": {
+    "singularName": "configuracion-sitio",
+    "pluralName": "configuraciones-sitio",
+    "displayName": "Configuración del sitio",
+    "description": "Navegación, pie de página y datos institucionales del portal"
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "barraUtilidades": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.enlace",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "etiquetaAcceso": {
+      "type": "string",
+      "required": true,
+      "default": "Acceso",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "menuPrincipal": {
+      "type": "component",
+      "repeatable": true,
+      "component": "nav.columna",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "descripcionFooter": {
+      "type": "text",
+      "required": true,
+      "maxLength": 300,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "columnasFooter": {
+      "type": "component",
+      "repeatable": true,
+      "component": "nav.columna",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "redesSociales": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.enlace",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "certificaciones": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.certificacion",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "vigilancia": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "listadoEn": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "legal": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    }
+  }
+}

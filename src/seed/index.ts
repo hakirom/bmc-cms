@@ -1,5 +1,14 @@
 import type { Core } from '@strapi/strapi'
 import { boletines, home, operaciones, plataformas, servicios } from './data'
+import { configuracionSitio } from './data-config'
+import {
+  boletinesEn,
+  configuracionSitioEn,
+  homeEn,
+  plataformasEn,
+  serviciosEn,
+} from './data-en'
+import { ensureLocales, LOCALE_EN, LOCALE_ES } from './locales'
 
 /** Content-types que la API pública puede leer (find + findOne). */
 const PUBLIC_READ_UIDS = [
@@ -8,6 +17,7 @@ const PUBLIC_READ_UIDS = [
   'api::operacion-mercado.operacion-mercado',
   'api::boletin.boletin',
   'api::home.home',
+  'api::configuracion-sitio.configuracion-sitio',
 ] as const
 
 /** Da permiso de lectura al rol Public para que el front pueda consumir la API sin token. */
@@ -23,7 +33,8 @@ async function grantPublicReadAccess(strapi: Core.Strapi) {
 
   for (const uid of PUBLIC_READ_UIDS) {
     // El single type solo expone find.
-    const actions = uid === 'api::home.home' ? ['find'] : ['find', 'findOne']
+    const isSingleType = uid === 'api::home.home' || uid === 'api::configuracion-sitio.configuracion-sitio'
+    const actions = isSingleType ? ['find'] : ['find', 'findOne']
 
     for (const action of actions) {
       const permission = `${uid}.${action}`
@@ -64,7 +75,87 @@ async function seedCollection<T extends Record<string, unknown>>(
   strapi.log.info(`[seed] ${entries.length} entradas creadas en ${uid}`)
 }
 
+/** Crea (una sola vez) el contenido de un single type. */
+async function seedSingleType(
+  strapi: Core.Strapi,
+  uid: Parameters<Core.Strapi['documents']>[0],
+  data: Record<string, unknown>,
+  etiqueta: string,
+) {
+  const existing = await strapi.documents(uid).findFirst({ locale: LOCALE_ES })
+  if (existing) return
+
+  await strapi.documents(uid).create({ data: data as never, locale: LOCALE_ES, status: 'published' })
+  strapi.log.info(`[seed] Single type ${etiqueta} creado`)
+}
+
+/**
+ * Añade la versión en inglés sobre documentos que ya existen en español.
+ * `clave` empareja cada traducción con su documento; si la versión `en` ya
+ * está creada no se toca, para no pisar ediciones hechas desde el panel.
+ */
+async function translateCollection<T extends Record<string, unknown>>(
+  strapi: Core.Strapi,
+  uid: Parameters<Core.Strapi['documents']>[0],
+  traducciones: T[],
+  clave: keyof T,
+  /** Campo real por el que se busca el original, si no coincide con `clave`. */
+  campo: string = clave as string,
+) {
+  let creadas = 0
+
+  for (const traduccion of traducciones) {
+    const { [clave]: valorClave, ...data } = traduccion
+
+    const original = await strapi
+      .documents(uid)
+      .findFirst({ locale: LOCALE_ES, filters: { [campo]: valorClave } as never })
+
+    if (!original) {
+      strapi.log.warn(`[seed] Sin original en español para ${campo}=${String(valorClave)}`)
+      continue
+    }
+
+    const yaTraducido = await strapi
+      .documents(uid)
+      .findOne({ documentId: original.documentId, locale: LOCALE_EN })
+    if (yaTraducido) continue
+
+    await strapi.documents(uid).update({
+      documentId: original.documentId,
+      locale: LOCALE_EN,
+      data: data as never,
+      status: 'published',
+    })
+    creadas += 1
+  }
+
+  if (creadas > 0) strapi.log.info(`[seed] ${creadas} traducciones al inglés en ${uid}`)
+}
+
+/** Misma idea que translateCollection, para single types. */
+async function translateSingleType(
+  strapi: Core.Strapi,
+  uid: Parameters<Core.Strapi['documents']>[0],
+  data: Record<string, unknown>,
+) {
+  const original = await strapi.documents(uid).findFirst({ locale: LOCALE_ES })
+  if (!original) return
+
+  const yaTraducido = await strapi.documents(uid).findFirst({ locale: LOCALE_EN })
+  if (yaTraducido) return
+
+  await strapi.documents(uid).update({
+    documentId: original.documentId,
+    locale: LOCALE_EN,
+    data: data as never,
+    status: 'published',
+  })
+  strapi.log.info(`[seed] Traducción al inglés en ${uid}`)
+}
+
 export async function seed(strapi: Core.Strapi) {
+  await ensureLocales(strapi)
   await grantPublicReadAccess(strapi)
 
   await seedCollection(strapi, 'api::plataforma.plataforma', plataformas)
@@ -73,9 +164,22 @@ export async function seed(strapi: Core.Strapi) {
   // Draft & Publish está desactivado en las operaciones: son datos, no contenido editorial.
   await seedCollection(strapi, 'api::operacion-mercado.operacion-mercado', operaciones, false)
 
-  const existingHome = await strapi.documents('api::home.home').findFirst({})
-  if (!existingHome) {
-    await strapi.documents('api::home.home').create({ data: home as never, status: 'published' })
-    strapi.log.info('[seed] Single type Home creado')
-  }
+  await seedSingleType(strapi, 'api::home.home', home, 'Home')
+  await seedSingleType(
+    strapi,
+    'api::configuracion-sitio.configuracion-sitio',
+    configuracionSitio,
+    'Configuración del sitio',
+  )
+
+  // Versiones en inglés sobre los mismos documentos
+  await translateCollection(strapi, 'api::plataforma.plataforma', plataformasEn, 'orden')
+  await translateCollection(strapi, 'api::servicio.servicio', serviciosEn, 'orden')
+  await translateCollection(strapi, 'api::boletin.boletin', boletinesEn, 'slugEs', 'slug')
+  await translateSingleType(strapi, 'api::home.home', homeEn)
+  await translateSingleType(
+    strapi,
+    'api::configuracion-sitio.configuracion-sitio',
+    configuracionSitioEn,
+  )
 }
