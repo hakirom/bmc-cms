@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "boletines",
+  "info": {
+    "singularName": "boletin",
+    "pluralName": "boletines",
+    "displayName": "Boletín",
+    "description": "Boletines del mercado y estudios económicos"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "titulo": { "type": "string", "required": true, "maxLength": 200 },
+    "slug": { "type": "uid", "targetField": "titulo", "required": true },
+    "fecha": { "type": "date", "required": true },
+    "resumen": { "type": "text", "required": true, "maxLength": 400 },
+    "contenido": { "type": "blocks" },
+    "categoria": {
+      "type": "enumeration",
+      "enum": ["boletin-diario", "estudio-economico", "comunicado"],
+      "default": "boletin-diario",
+      "required": true
+    },
+    "adjunto": { "type": "media", "multiple": false, "allowedTypes": ["files", "images"] },
+    "destacado": { "type": "boolean", "default": false }
+  }
+}

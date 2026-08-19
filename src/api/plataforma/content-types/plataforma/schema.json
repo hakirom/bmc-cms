@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "plataformas",
+  "info": {
+    "singularName": "plataforma",
+    "pluralName": "plataformas",
+    "displayName": "Plataforma",
+    "description": "Plataformas de la BMC: negociación, registro, liquidación, datos y programas"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "titulo": { "type": "string", "required": true, "unique": true, "maxLength": 120 },
+    "slug": { "type": "uid", "targetField": "titulo", "required": true },
+    "descripcion": { "type": "text", "required": true, "maxLength": 500 },
+    "icono": {
+      "type": "enumeration",
+      "enum": ["exchange", "clipboard", "scale", "chart", "sprout"],
+      "default": "exchange",
+      "required": true
+    },
+    "orden": { "type": "integer", "default": 0, "min": 0 }
+  }
+}

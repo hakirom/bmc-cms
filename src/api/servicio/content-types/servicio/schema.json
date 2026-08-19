@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "servicios",
+  "info": {
+    "singularName": "servicio",
+    "pluralName": "servicios",
+    "displayName": "Servicio",
+    "description": "Bloques de la sección Nuestros servicios"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "titulo": { "type": "string", "required": true, "unique": true, "maxLength": 160 },
+    "slug": { "type": "uid", "targetField": "titulo", "required": true },
+    "descripcion": { "type": "text", "required": true },
+    "icono": {
+      "type": "enumeration",
+      "enum": ["exchange", "coins", "chart", "sprout"],
+      "default": "exchange",
+      "required": true
+    },
+    "orden": { "type": "integer", "default": 0, "min": 0 },
+    "enlaces": { "type": "component", "repeatable": true, "component": "shared.enlace" }
+  }
+}

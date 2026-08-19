@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "home",
+  "info": {
+    "singularName": "home",
+    "pluralName": "homes",
+    "displayName": "Home",
+    "description": "Contenido editable de la página de inicio"
+  },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "eyebrow": { "type": "string", "required": true, "maxLength": 80 },
+    "titulo": { "type": "string", "required": true, "maxLength": 160 },
+    "subtitulo": { "type": "text", "required": true },
+    "ctaPrimario": { "type": "string", "required": true },
+    "ctaSecundario": { "type": "string" },
+    "tituloServicios": { "type": "string", "required": true },
+    "introServicios": { "type": "text", "required": true },
+    "tituloValor": { "type": "string", "required": true },
+    "cifras": { "type": "component", "repeatable": true, "component": "home.cifra" },
+    "mensajesValor": { "type": "component", "repeatable": true, "component": "home.mensaje-valor" },
+    "tarjetasContacto": { "type": "component", "repeatable": true, "component": "home.tarjeta-contacto" },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" }
+  }
+}

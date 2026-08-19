@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_enlaces",
+  "info": {
+    "displayName": "Enlace",
+    "description": "Enlace a un producto o mercado",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "etiqueta": { "type": "string", "required": true },
+    "url": { "type": "string", "default": "#" }
+  }
+}

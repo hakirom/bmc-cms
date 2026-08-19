@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_home_mensajes_valor",
+  "info": {
+    "displayName": "Mensaje de valor",
+    "description": "Diapositiva de ¿Cómo agregamos valor a Colombia?",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "texto": { "type": "text", "required": true }
+  }
+}

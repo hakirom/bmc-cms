@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_home_tarjetas_contacto",
+  "info": {
+    "displayName": "Tarjeta de contacto",
+    "description": "Bloque del área Contáctenos",
+    "icon": "phone"
+  },
+  "options": {},
+  "attributes": {
+    "titulo": { "type": "string", "required": true },
+    "icono": {
+      "type": "enumeration",
+      "enum": ["phone", "headset", "pin"],
+      "default": "phone",
+      "required": true
+    },
+    "lineas": { "type": "text", "required": true },
+    "cta": { "type": "string" }
+  }
+}

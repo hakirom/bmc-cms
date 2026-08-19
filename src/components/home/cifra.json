@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_home_cifras",
+  "info": {
+    "displayName": "Cifra",
+    "description": "Dato destacado de la franja de cifras",
+    "icon": "chartBubble"
+  },
+  "options": {},
+  "attributes": {
+    "valor": { "type": "string", "required": true },
+    "etiqueta": { "type": "string", "required": true }
+  }
+}

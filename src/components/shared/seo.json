@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_seos",
+  "info": {
+    "displayName": "SEO",
+    "description": "Metadatos para buscadores",
+    "icon": "search"
+  },
+  "options": {},
+  "attributes": {
+    "metaTitulo": { "type": "string", "required": true, "maxLength": 70 },
+    "metaDescripcion": { "type": "text", "required": true, "maxLength": 200 },
+    "palabrasClave": { "type": "string" }
+  }
+}
