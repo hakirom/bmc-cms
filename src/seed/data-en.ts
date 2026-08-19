@@ -119,6 +119,14 @@ export const homeEn = {
   introServicios:
     'We are a trading venue for agricultural, industrial, mining-energy and other commodities, where you can buy or sell products, obtain financing or invest.',
   tituloValor: 'How do we add value to Colombia?',
+  etiquetaPlataformas: 'Our platforms',
+  tituloTablero: 'Close | Trading session',
+  ctaTablero: 'More market information',
+  notaTablero: 'Demonstration figures. They do not correspond to real market transactions.',
+  eyebrowBoletines: 'Market bulletins',
+  tituloBoletines: 'Information and analysis for timely decisions',
+  eyebrowContacto: 'Contact us',
+  tituloContacto: 'We are here to help',
   cifras: [
     { valor: '46', etiqueta: 'years of experience' },
     { valor: '+3,500', etiqueta: 'entities and companies served' },

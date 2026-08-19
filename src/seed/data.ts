@@ -155,6 +155,14 @@ export const home = {
   introServicios:
     'Somos un escenario de negociación de productos agropecuarios, industriales, minero-energéticos y otros commodities, donde se puede comprar o vender productos, obtener financiación o hacer inversiones.',
   tituloValor: '¿Cómo agregamos valor a Colombia?',
+  etiquetaPlataformas: 'Nuestras plataformas',
+  tituloTablero: 'Cierre | Rueda de negocios',
+  ctaTablero: 'Más información del mercado',
+  notaTablero: 'Cifras de demostración. No corresponden a operaciones reales del mercado.',
+  eyebrowBoletines: 'Boletines del mercado',
+  tituloBoletines: 'Información y análisis para decidir a tiempo',
+  eyebrowContacto: 'Contáctenos',
+  tituloContacto: 'Estamos para atenderle',
   cifras: [
     { valor: '46', etiqueta: 'años de experiencia' },
     { valor: '+3.500', etiqueta: 'entidades y empresas atendidas' },

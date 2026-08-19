@@ -123,6 +123,76 @@
           "localized": true
         }
       }
+    },
+    "etiquetaPlataformas": {
+      "type": "string",
+      "default": "Nuestras plataformas",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tituloTablero": {
+      "type": "string",
+      "default": "Cierre | Rueda de negocios",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "ctaTablero": {
+      "type": "string",
+      "default": "Más información del mercado",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "notaTablero": {
+      "type": "text",
+      "maxLength": 300,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "eyebrowBoletines": {
+      "type": "string",
+      "default": "Boletines del mercado",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tituloBoletines": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "eyebrowContacto": {
+      "type": "string",
+      "default": "Contáctenos",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tituloContacto": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   },
   "pluginOptions": {

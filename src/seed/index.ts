@@ -154,6 +154,42 @@ async function translateSingleType(
   strapi.log.info(`[seed] Traducción al inglés en ${uid}`)
 }
 
+/**
+ * Rellena los campos que estén vacíos en un documento ya existente. Sirve
+ * cuando se añaden campos nuevos al esquema y el contenido ya está creado:
+ * no pisa nada que el editor haya escrito.
+ */
+async function patchMissingFields(
+  strapi: Core.Strapi,
+  uid: Parameters<Core.Strapi['documents']>[0],
+  data: Record<string, unknown>,
+  locale: string,
+) {
+  // `populate` es imprescindible: sin él los componentes llegan vacíos y se
+  // reescribirían, pisando lo que el editor haya cambiado en el panel.
+  const actual = await strapi.documents(uid).findFirst({ locale, populate: '*' })
+  if (!actual) return
+
+  const faltantes = Object.entries(data).filter(([campo]) => {
+    const valor = (actual as Record<string, unknown>)[campo]
+    return valor === null || valor === undefined || (Array.isArray(valor) && valor.length === 0)
+  })
+
+  if (faltantes.length === 0) return
+
+  await strapi.documents(uid).update({
+    documentId: actual.documentId,
+    locale,
+    data: Object.fromEntries(faltantes) as never,
+    status: 'published',
+  })
+  strapi.log.info(
+    `[seed] ${uid} (${locale}): ${faltantes.length} campos nuevos rellenados — ${faltantes
+      .map(([campo]) => campo)
+      .join(', ')}`,
+  )
+}
+
 export async function seed(strapi: Core.Strapi) {
   await ensureLocales(strapi)
   await grantPublicReadAccess(strapi)
@@ -171,6 +207,10 @@ export async function seed(strapi: Core.Strapi) {
     configuracionSitio,
     'Configuración del sitio',
   )
+
+  // Campos añadidos al esquema después de la primera siembra
+  await patchMissingFields(strapi, 'api::home.home', home, LOCALE_ES)
+  await patchMissingFields(strapi, 'api::home.home', homeEn, LOCALE_EN)
 
   // Versiones en inglés sobre los mismos documentos
   await translateCollection(strapi, 'api::plataforma.plataforma', plataformasEn, 'orden')
