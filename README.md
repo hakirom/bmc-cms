@@ -45,8 +45,26 @@ panel se reconstruya.
 ## Contenido
 
 - Content-types: `src/api/*/content-types/*/schema.json`
-- Componentes: `src/components/{shared,home}/*.json`
+- Componentes: `src/components/{shared,home,nav}/*.json`
 - Seed y permisos públicos: `src/seed/` (se ejecuta desde `src/index.ts`)
+
+### Qué hace el seed, en orden
+
+| Archivo | Responsabilidad |
+|---|---|
+| `locales.ts` | Crea `es`/`en` y fija el español por defecto |
+| `index.ts` | Permisos públicos, siembra inicial y relleno de campos nuevos |
+| `data.ts` · `data-config.ts` | Contenido en español |
+| `data-en.ts` | Traducciones, aplicadas **sobre el mismo documento** |
+| `admin-views.ts` | Vistas del Content Manager (columnas, orden, ayudas) |
+
+Todo es idempotente: en un arranque sin cambios el seed no escribe nada. Las traducciones
+y el relleno de campos nunca sobrescriben lo que ya tenga valor, para no pisar ediciones
+hechas desde el panel.
+
+> Al añadir campos localizados a un content-type que ya tiene contenido, activa primero el
+> locale por defecto y solo después marca el esquema como `localized`. Si se hace al revés,
+> las entradas existentes quedan asignadas al idioma equivocado.
 
 Para recargar el contenido desde cero: borra `.tmp/data.db` y reinicia. Para desactivar
 el seed: `SEED_DISABLED=true` en `.env`.
