@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 92" width="280" height="92" role="img" aria-label="Bolsa Mercantil de Colombia">
+  <rect width="280" height="92" rx="12" fill="#013365"/>
+  <circle cx="46" cy="40" r="20" fill="none" stroke="#FFFFFF" stroke-width="2.2"/>
+  <g stroke="#FFFFFF" stroke-width="1.2" opacity="0.85">
+    <path d="M46 20v40M26 40h40M31.9 25.9l28.2 28.2M60.1 25.9L31.9 54.1"/>
+  </g>
+  <circle cx="46" cy="40" r="7.4" fill="#55B0E8"/>
+  <text x="46" y="78" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">BMC</text>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="1.2">
+    <text x="86" y="34">BOLSA</text>
+    <text x="86" y="52">MERCANTIL</text>
+    <text x="86" y="70">DE COLOMBIA</text>
+  </g>
+</svg>

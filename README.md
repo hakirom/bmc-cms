@@ -1,61 +1,52 @@
-# 🚀 Getting started with Strapi
+# apps/cms — Strapi 5
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+CMS headless que sirve el contenido del front en `apps/web`. Ver el
+[README raíz](../../README.md) para el arranque completo.
 
-### `develop`
-
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
-
-```
-npm run develop
-# or
-yarn develop
+```bash
+npm install
+npm run develop     # http://localhost:1337/admin
+npm run build       # build de producción del admin
 ```
 
-### `start`
+## Personalización del admin (línea gráfica BMC)
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+Todo vive en `src/admin/`:
 
-```
-npm run start
-# or
-yarn start
-```
+| Archivo | Qué hace |
+|---|---|
+| `app.tsx` | Configuración del panel: logos, tema, idioma, textos y `bootstrap` |
+| `theme.ts` | Paleta BMC mapeada a los tokens de `@strapi/design-system` |
+| `extensions/bmc-logo.svg` | Logo de la pantalla de login (placa navy, legible en tema claro y oscuro) |
+| `extensions/bmc-mark.svg` | Marca del menú lateral |
+| `extensions/favicon.svg` | Favicon del panel |
 
-### `build`
+**Paleta aplicada** (tomada del sitio público):
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+| Token de Strapi | Color | Uso en el panel |
+|---|---|---|
+| `primary600` / `buttonPrimary600` | `#013365` navy | botones principales, elementos activos |
+| `primary500` | `#1E88D3` azul | hover y estados intermedios |
+| `primary700` | `#001F42` | pressed |
+| `primary100` / `neutral100` | `#F2F9FE` | fondos con el tinte azulado del sitio |
+| `secondary*` / `alternative*` | familia azul | sustituyen el morado por defecto de Strapi |
 
-```
-npm run build
-# or
-yarn build
-```
+El tema define claro **y** oscuro: en oscuro se invierte la jerarquía (azul claro para
+las acciones) para mantener el contraste.
 
-## ⚙️ Deployment
+**Detalle de implementación:** en Strapi 5.52 el `index.html` del admin se genera sin
+`<link rel="icon">` y con el título fijo *Strapi Admin*, así que `config.head.favicon` no
+llega a aplicarse. El favicon y el título se inyectan desde `bootstrap()` en `app.tsx`,
+que corre igual en desarrollo y en el build.
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+Tras cambiar cualquier cosa de `src/admin/`, reinicia `npm run develop` para que el
+panel se reconstruya.
 
-```
-yarn strapi deploy
-```
+## Contenido
 
-## 📚 Learn more
+- Content-types: `src/api/*/content-types/*/schema.json`
+- Componentes: `src/components/{shared,home}/*.json`
+- Seed y permisos públicos: `src/seed/` (se ejecuta desde `src/index.ts`)
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
-
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
-
-## ✨ Community
-
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
-
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+Para recargar el contenido desde cero: borra `.tmp/data.db` y reinicia. Para desactivar
+el seed: `SEED_DISABLED=true` en `.env`.
