@@ -8,6 +8,7 @@ import {
   plataformasEn,
   serviciosEn,
 } from './data-en'
+import { configureAdminViews } from './admin-views'
 import { ensureLocales, LOCALE_EN, LOCALE_ES } from './locales'
 
 /** Content-types que la API pública puede leer (find + findOne). */
@@ -222,4 +223,7 @@ export async function seed(strapi: Core.Strapi) {
     'api::configuracion-sitio.configuracion-sitio',
     configuracionSitioEn,
   )
+
+  // Ergonomía del panel: columnas, orden y textos de ayuda
+  await configureAdminViews(strapi)
 }
