@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_interfaz_acceso",
+  "info": { "displayName": "Acceso y registro", "description": "Textos del inicio de sesión y del alta de usuarios", "icon": "lock" },
+  "options": {},
+  "attributes": {
+    "tituloEntrar": { "type": "string", "required": true },"subtituloEntrar": { "type": "string", "required": true },"tituloRegistro": { "type": "string", "required": true },"subtituloRegistro": { "type": "string", "required": true },"campoNombre": { "type": "string", "required": true },"campoCorreo": { "type": "string", "required": true },"campoContrasena": { "type": "string", "required": true },"botonEntrar": { "type": "string", "required": true },"botonRegistrar": { "type": "string", "required": true },"irARegistro": { "type": "string", "required": true },"irAEntrar": { "type": "string", "required": true },"cerrarSesion": { "type": "string", "required": true },"errorCredenciales": { "type": "string", "required": true },"errorRegistro": { "type": "string", "required": true },"procesando": { "type": "string", "required": true }
+  }
+}

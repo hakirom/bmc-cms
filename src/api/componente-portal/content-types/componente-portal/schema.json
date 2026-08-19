@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "componentes_portal",
+  "info": {
+    "singularName": "componente-portal",
+    "pluralName": "componentes-portal",
+    "displayName": "Componente de portal",
+    "description": "Tarjetas y widgets del portal privado, encendibles desde el panel"
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "titulo": { "type": "string", "required": true, "maxLength": 120, "pluginOptions": { "i18n": { "localized": true } } },
+    "clave": { "type": "uid", "targetField": "titulo", "required": true, "pluginOptions": { "i18n": { "localized": false } } },
+    "descripcion": { "type": "text", "required": true, "maxLength": 400, "pluginOptions": { "i18n": { "localized": true } } },
+    "tipo": {
+      "type": "enumeration",
+      "enum": ["operaciones", "boletines", "tramites", "documentos", "soporte", "enlace"],
+      "default": "enlace",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "icono": {
+      "type": "enumeration",
+      "enum": ["exchange", "chart", "clipboard", "scale", "coins", "sprout", "headset", "line"],
+      "default": "line",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "orden": { "type": "integer", "default": 0, "min": 0, "pluginOptions": { "i18n": { "localized": false } } },
+    "activo": { "type": "boolean", "default": true, "pluginOptions": { "i18n": { "localized": false } } },
+    "requiereSesion": { "type": "boolean", "default": true, "pluginOptions": { "i18n": { "localized": false } } },
+    "etiquetaAccion": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } }
+  }
+}

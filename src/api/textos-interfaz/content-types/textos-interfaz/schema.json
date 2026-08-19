@@ -1,0 +1,90 @@
+{
+  "kind": "singleType",
+  "collectionName": "textos_interfaz",
+  "info": {
+    "singularName": "textos-interfaz",
+    "pluralName": "textos-interfaces",
+    "displayName": "Textos de interfaz",
+    "description": "Microcopy de la web: botones, cabeceras de tabla, acceso, portal y asistente"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "acciones": {
+      "type": "component",
+      "repeatable": false,
+      "component": "interfaz.acciones",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "tablero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "interfaz.tablero",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "boletines": {
+      "type": "component",
+      "repeatable": false,
+      "component": "interfaz.boletines",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "acceso": {
+      "type": "component",
+      "repeatable": false,
+      "component": "interfaz.acceso",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "portal": {
+      "type": "component",
+      "repeatable": false,
+      "component": "interfaz.portal",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "pqrsf": {
+      "type": "component",
+      "repeatable": false,
+      "component": "interfaz.pqrsf",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "guionPqrsf": {
+      "type": "component",
+      "repeatable": true,
+      "component": "interfaz.paso-chat",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}

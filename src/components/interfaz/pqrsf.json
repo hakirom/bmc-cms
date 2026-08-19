@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_interfaz_pqrsf",
+  "info": { "displayName": "Asistente PQRSF", "description": "Textos del chat de peticiones, quejas y reclamos", "icon": "message" },
+  "options": {},
+  "attributes": {
+    "titulo": { "type": "string", "required": true },"subtitulo": { "type": "string", "required": true },"placeholder": { "type": "string", "required": true },"enviar": { "type": "string", "required": true },"reiniciar": { "type": "string", "required": true },"escribiendo": { "type": "string", "required": true },"radicadoTitulo": { "type": "string", "required": true },"radicadoAviso": { "type": "string", "required": true },"errorEnvio": { "type": "string", "required": true }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "solicitudes_pqrsf",
+  "info": {
+    "singularName": "solicitud-pqrsf",
+    "pluralName": "solicitudes-pqrsf",
+    "displayName": "Solicitud PQRSF",
+    "description": "Casos radicados desde el asistente de PQRSF"
+  },
+  "options": { "draftAndPublish": false },
+  "attributes": {
+    "radicado": { "type": "string", "required": true, "unique": true },
+    "tipo": {
+      "type": "enumeration",
+      "enum": ["peticion", "queja", "reclamo", "sugerencia", "felicitacion"],
+      "required": true
+    },
+    "asunto": { "type": "string", "required": true, "maxLength": 200 },
+    "mensaje": { "type": "text", "required": true },
+    "nombre": { "type": "string", "required": true, "maxLength": 120 },
+    "correo": { "type": "email", "required": true },
+    "estado": {
+      "type": "enumeration",
+      "enum": ["recibida", "en-tramite", "resuelta"],
+      "default": "recibida",
+      "required": true
+    },
+    "canal": { "type": "string", "default": "asistente-web" },
+    "transcripcion": { "type": "json" }
+  }
+}

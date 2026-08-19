@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_interfaz_boletines",
+  "info": { "displayName": "Etiquetas de boletines", "description": "Nombres de las categorías y distintivos", "icon": "file" },
+  "options": {},
+  "attributes": {
+    "catBoletinDiario": { "type": "string", "required": true },"catEstudioEconomico": { "type": "string", "required": true },"catComunicado": { "type": "string", "required": true },"destacado": { "type": "string", "required": true }
+  }
+}

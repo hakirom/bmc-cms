@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_interfaz_portal",
+  "info": { "displayName": "Portal privado", "description": "Textos del tablero posterior al inicio de sesión", "icon": "layer" },
+  "options": {},
+  "attributes": {
+    "titulo": { "type": "string", "required": true },"subtitulo": { "type": "string", "required": true },"saludo": { "type": "string", "required": true },"sinComponentes": { "type": "string", "required": true },"abrir": { "type": "string", "required": true },"volverAlSitio": { "type": "string", "required": true },"requiereSesion": { "type": "string", "required": true }
+  }
+}

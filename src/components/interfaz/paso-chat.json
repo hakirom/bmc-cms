@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_interfaz_pasos_chat",
+  "info": {
+    "displayName": "Paso del asistente",
+    "description": "Mensaje que envía el asistente PQRSF en cada punto de la conversación",
+    "icon": "message"
+  },
+  "options": {},
+  "attributes": {
+    "clave": {
+      "type": "enumeration",
+      "enum": ["saludo", "tipo", "asunto", "detalle", "nombre", "correo", "confirmacion", "cierre", "noEntendido"],
+      "required": true
+    },
+    "mensaje": { "type": "text", "required": true }
+  }
+}

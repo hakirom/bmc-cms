@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_shared_puntos",
+  "info": {
+    "displayName": "Punto de lista",
+    "description": "Elemento de una lista de características",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "texto": { "type": "string", "required": true }
+  }
+}

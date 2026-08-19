@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_interfaz_tablero",
+  "info": { "displayName": "Tablero de mercado", "description": "Cabeceras y rótulos del cierre de rueda", "icon": "grid" },
+  "options": {},
+  "attributes": {
+    "mercadoFisicos": { "type": "string", "required": true },"mercadoFinancieros": { "type": "string", "required": true },"colNegocio": { "type": "string", "required": true },"colProducto": { "type": "string", "required": true },"colCantidad": { "type": "string", "required": true },"colValor": { "type": "string", "required": true },"colInstrumento": { "type": "string", "required": true },"colTasa": { "type": "string", "required": true },"numeroOperaciones": { "type": "string", "required": true },"valorNegociado": { "type": "string", "required": true },"fechaCierre": { "type": "string", "required": true }
+  }
+}

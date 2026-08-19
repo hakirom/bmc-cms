@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_interfaz_acciones",
+  "info": { "displayName": "Acciones y navegación", "description": "Botones y etiquetas de accesibilidad", "icon": "cursor" },
+  "options": {},
+  "attributes": {
+    "conocerMas": { "type": "string", "required": true },"verTodosServicios": { "type": "string", "required": true },"leerBoletin": { "type": "string", "required": true },"anterior": { "type": "string", "required": true },"siguiente": { "type": "string", "required": true },"buscar": { "type": "string", "required": true },"buscarPlaceholder": { "type": "string", "required": true },"abrirMenu": { "type": "string", "required": true },"cerrarMenu": { "type": "string", "required": true },"cambiarIdioma": { "type": "string", "required": true },"saltarContenido": { "type": "string", "required": true },"volverInicio": { "type": "string", "required": true }
+  }
+}

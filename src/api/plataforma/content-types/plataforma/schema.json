@@ -68,6 +68,43 @@
           "localized": false
         }
       }
+    },
+    "activa": {
+      "type": "boolean",
+      "default": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "requiereSesion": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "resumenDemo": {
+      "type": "text",
+      "maxLength": 600,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "caracteristicas": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.punto",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   },
   "pluginOptions": {

@@ -3,13 +3,13 @@
 const enlaces = (...etiquetas: string[]) => etiquetas.map((etiqueta) => ({ etiqueta, url: '#' }))
 
 export const configuracionSitio = {
-  barraUtilidades: enlaces(
-    'Boletines del mercado',
-    'Información de Mercados',
-    'PQRSF',
-    'Línea ética',
-    'Pague facturas negociadas',
-  ),
+  barraUtilidades: [
+    { etiqueta: 'Boletines del mercado', url: '/#boletines' },
+    { etiqueta: 'Información de Mercados', url: '/#top' },
+    { etiqueta: 'PQRSF', url: '/pqrsf' },
+    { etiqueta: 'Línea ética', url: '#' },
+    { etiqueta: 'Pague facturas negociadas', url: '#' },
+  ],
   etiquetaAcceso: 'Acceso',
   menuPrincipal: [
     {
