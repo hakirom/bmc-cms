@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "//": "Despliegue EXPERIMENTAL del CMS en Vercel. Root Directory = ra\u00edz del repo. Lea la advertencia del README: Strapi no soporta serverless oficialmente.",
   "buildCommand": "npm run build",
   "outputDirectory": "dist/build",
   "framework": null,

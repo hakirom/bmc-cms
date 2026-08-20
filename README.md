@@ -91,7 +91,12 @@ DATABASE_CLIENT=postgres DATABASE_URL='su-cadena' NODE_ENV=production npm run st
 ### Vercel (experimental, no recomendado)
 
 `api/index.ts` arranca Strapi y delega en el callback de Koa; `vercel.json` enruta
-`/admin`, `/api` y las rutas de plugins a esa función. Limitaciones asumidas:
+`/admin`, `/api` y las rutas de plugins a esa función. Root Directory: la raíz del repo.
+
+> `vercel.json` no admite comentarios ni claves fuera del esquema de Vercel: una clave
+> `"//"` hace fallar la creación del proyecto con *should NOT have additional property*.
+
+Limitaciones asumidas:
 
 - **Arranque en frío** de varios segundos en cada instancia nueva; el primer acceso al
   panel puede expirar.
