@@ -93,8 +93,14 @@ DATABASE_CLIENT=postgres DATABASE_URL='su-cadena' NODE_ENV=production npm run st
 `api/index.ts` arranca Strapi y delega en el callback de Koa; `vercel.json` enruta
 `/admin`, `/api` y las rutas de plugins a esa función. Root Directory: la raíz del repo.
 
-> `vercel.json` no admite comentarios ni claves fuera del esquema de Vercel: una clave
-> `"//"` hace fallar la creación del proyecto con *should NOT have additional property*.
+Tres cosas que hacen fallar la importación en Vercel y no son evidentes:
+
+> - `vercel.json` no admite comentarios: una clave `"//"` da *should NOT have additional
+>   property*.
+> - `engines.node` debe ser una versión concreta (`22.x`). El rango que genera Strapi
+>   (`>=20.0.0 <=26.x.x`) produce *Found invalid Node.js Version*.
+> - `functions.memory` y `maxDuration` por encima de lo que permite el plan (3009 MB es
+>   de plan Pro) son rechazados en Hobby. Se ajustan en **Settings → Functions**.
 
 Limitaciones asumidas:
 
