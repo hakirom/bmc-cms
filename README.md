@@ -101,6 +101,14 @@ Tres cosas que hacen fallar la importación en Vercel y no son evidentes:
 >   (`>=20.0.0 <=26.x.x`) produce *Found invalid Node.js Version*.
 > - `functions.memory` y `maxDuration` por encima de lo que permite el plan (3009 MB es
 >   de plan Pro) son rechazados en Hobby. Se ajustan en **Settings → Functions**.
+> - Una variable **definida pero vacía** no es lo mismo que ausente: `env()` devuelve la
+>   cadena vacía y no aplica el valor por defecto. Con `HOST` o `PORT` vacíos el build
+>   muere con `TypeError: Invalid URL`, porque Strapi compone `http://:1337`. Pasa al
+>   importar variables desde un archivo de ejemplo. `config/server.ts` ya lo tolera, pero
+>   conviene no dejar variables en blanco en el panel.
+
+Si el CMS queda detrás de un dominio propio o un CDN, defina `PUBLIC_URL` con la URL
+pública: Strapi la usará tal cual en vez de componerla con host y puerto.
 
 Limitaciones asumidas:
 
