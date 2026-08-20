@@ -1,0 +1,26 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "//": "Despliegue EXPERIMENTAL del CMS en Vercel. Root Directory del proyecto = apps/cms. Lea la advertencia del README antes de usarlo en una demo.",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/build",
+  "framework": null,
+  "functions": {
+    "api/index.ts": {
+      "memory": 3009,
+      "maxDuration": 60,
+      "includeFiles": "dist/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/admin/(.*)", "destination": "/api/index" },
+    { "source": "/admin", "destination": "/api/index" },
+    { "source": "/uploads/(.*)", "destination": "/api/index" },
+    { "source": "/_health", "destination": "/api/index" },
+    { "source": "/i18n/(.*)", "destination": "/api/index" },
+    { "source": "/content-manager/(.*)", "destination": "/api/index" },
+    { "source": "/content-type-builder/(.*)", "destination": "/api/index" },
+    { "source": "/upload/(.*)", "destination": "/api/index" },
+    { "source": "/users-permissions/(.*)", "destination": "/api/index" }
+  ]
+}
