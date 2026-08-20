@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "//": "Despliegue EXPERIMENTAL del CMS en Vercel. Root Directory del proyecto = apps/cms. Lea la advertencia del README antes de usarlo en una demo.",
+  "//": "Despliegue EXPERIMENTAL del CMS en Vercel. Root Directory = ra\u00edz del repo. Lea la advertencia del README: Strapi no soporta serverless oficialmente.",
   "buildCommand": "npm run build",
   "outputDirectory": "dist/build",
   "framework": null,
@@ -12,15 +12,45 @@
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index" },
-    { "source": "/admin/(.*)", "destination": "/api/index" },
-    { "source": "/admin", "destination": "/api/index" },
-    { "source": "/uploads/(.*)", "destination": "/api/index" },
-    { "source": "/_health", "destination": "/api/index" },
-    { "source": "/i18n/(.*)", "destination": "/api/index" },
-    { "source": "/content-manager/(.*)", "destination": "/api/index" },
-    { "source": "/content-type-builder/(.*)", "destination": "/api/index" },
-    { "source": "/upload/(.*)", "destination": "/api/index" },
-    { "source": "/users-permissions/(.*)", "destination": "/api/index" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/admin",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/uploads/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/_health",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/i18n/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/content-manager/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/content-type-builder/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/upload/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/users-permissions/(.*)",
+      "destination": "/api/index"
+    }
   ]
 }

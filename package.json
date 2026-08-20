@@ -1,8 +1,8 @@
 {
-  "name": "cms",
+  "name": "bmc-cms",
   "version": "0.1.0",
   "private": true,
-  "description": "A Strapi application",
+  "description": "CMS headless de la demo BMC: Strapi 5 con seed autom\u00e1tico y panel con marca",
   "scripts": {
     "build": "strapi build",
     "console": "strapi console",
