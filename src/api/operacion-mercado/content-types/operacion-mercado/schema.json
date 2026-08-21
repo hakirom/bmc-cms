@@ -7,18 +7,41 @@
     "displayName": "Operación de mercado",
     "description": "Registros del cierre de rueda (datos de demostración)"
   },
-  "options": { "draftAndPublish": false },
+  "options": {
+    "draftAndPublish": false
+  },
   "attributes": {
-    "numeroNegocio": { "type": "string", "required": true, "unique": true },
+    "numeroNegocio": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
     "tipoMercado": {
       "type": "enumeration",
-      "enum": ["fisicos", "financieros"],
+      "enum": [
+        "fisicos",
+        "financieros"
+      ],
       "required": true
     },
-    "concepto": { "type": "string", "required": true },
-    "cantidad": { "type": "string" },
-    "valor": { "type": "decimal", "required": true, "min": 0 },
-    "tasa": { "type": "decimal", "min": 0 },
-    "fecha": { "type": "date", "required": true }
+    "concepto": {
+      "type": "string",
+      "required": true
+    },
+    "cantidad": {
+      "type": "string"
+    },
+    "valor": {
+      "type": "biginteger",
+      "required": true
+    },
+    "tasa": {
+      "type": "decimal",
+      "min": 0
+    },
+    "fecha": {
+      "type": "date",
+      "required": true
+    }
   }
 }

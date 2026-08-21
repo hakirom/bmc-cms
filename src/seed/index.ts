@@ -283,71 +283,118 @@ async function migrarUrlsBarraUtilidades(
   strapi.log.info(`[seed] URLs de la barra de utilidades actualizadas (${locale})`)
 }
 
+/**
+ * Ejecuta un paso del seed sin dejar que su fallo aborte el resto.
+ *
+ * Antes, un solo error —por ejemplo un valor que no cabía en su columna— dejaba
+ * sin sembrar todo lo que venía después, y el sitio se veía a medias sin que el
+ * motivo apareciera por ningún lado salvo en los logs del servidor.
+ */
+async function paso(strapi: Core.Strapi, nombre: string, fn: () => Promise<unknown>) {
+  try {
+    await fn()
+  } catch (error) {
+    strapi.log.error(`[seed] Falló el paso "${nombre}"; se continúa con el resto.`)
+    strapi.log.error(error)
+  }
+}
+
 export async function seed(strapi: Core.Strapi) {
-  await ensureLocales(strapi)
-  await grantPublicReadAccess(strapi)
+  await paso(strapi, 'locales', () => ensureLocales(strapi))
+  await paso(strapi, 'permisos públicos', () => grantPublicReadAccess(strapi))
 
-  await seedCollection(strapi, 'api::plataforma.plataforma', plataformas)
-  await seedCollection(strapi, 'api::servicio.servicio', servicios)
-  await seedCollection(strapi, 'api::boletin.boletin', boletines)
+  // --- Contenido en español -------------------------------------------------
+  await paso(strapi, 'plataformas', () =>
+    seedCollection(strapi, 'api::plataforma.plataforma', plataformas),
+  )
+  await paso(strapi, 'servicios', () =>
+    seedCollection(strapi, 'api::servicio.servicio', servicios),
+  )
+  await paso(strapi, 'boletines', () =>
+    seedCollection(strapi, 'api::boletin.boletin', boletines),
+  )
   // Draft & Publish está desactivado en las operaciones: son datos, no contenido editorial.
-  await seedCollection(strapi, 'api::operacion-mercado.operacion-mercado', operaciones, false)
-
-  await seedSingleType(strapi, 'api::home.home', home, 'Home')
-  await seedSingleType(
-    strapi,
-    'api::configuracion-sitio.configuracion-sitio',
-    configuracionSitio,
-    'Configuración del sitio',
+  await paso(strapi, 'operaciones de mercado', () =>
+    seedCollection(strapi, 'api::operacion-mercado.operacion-mercado', operaciones, false),
+  )
+  await paso(strapi, 'componentes de portal', () =>
+    seedCollection(strapi, 'api::componente-portal.componente-portal', componentesPortal),
   )
 
-  // Campos añadidos al esquema después de la primera siembra
-  await patchMissingFields(strapi, 'api::home.home', home, LOCALE_ES)
-  await patchMissingFields(strapi, 'api::home.home', homeEn, LOCALE_EN)
-
-  // Versiones en inglés sobre los mismos documentos
-  await translateCollection(strapi, 'api::plataforma.plataforma', plataformasEn, 'orden')
-  await translateCollection(strapi, 'api::servicio.servicio', serviciosEn, 'orden')
-  await translateCollection(strapi, 'api::boletin.boletin', boletinesEn, 'slugEs', 'slug')
-  await translateSingleType(strapi, 'api::home.home', homeEn)
-  await translateSingleType(
-    strapi,
-    'api::configuracion-sitio.configuracion-sitio',
-    configuracionSitioEn,
+  await paso(strapi, 'single type Home', () =>
+    seedSingleType(strapi, 'api::home.home', home, 'Home'),
+  )
+  await paso(strapi, 'single type Configuración del sitio', () =>
+    seedSingleType(
+      strapi,
+      'api::configuracion-sitio.configuracion-sitio',
+      configuracionSitio,
+      'Configuración del sitio',
+    ),
+  )
+  await paso(strapi, 'single type Textos de interfaz', () =>
+    seedSingleType(
+      strapi,
+      'api::textos-interfaz.textos-interfaz',
+      textosInterfaz,
+      'Textos de interfaz',
+    ),
   )
 
-  // Portal privado y microcopy
-  await seedCollection(strapi, 'api::componente-portal.componente-portal', componentesPortal)
-  await translateCollection(
-    strapi,
-    'api::componente-portal.componente-portal',
-    componentesPortalEn,
-    'clave',
+  // --- Campos añadidos al esquema después de la primera siembra -------------
+  await paso(strapi, 'campos nuevos de Home', async () => {
+    await patchMissingFields(strapi, 'api::home.home', home, LOCALE_ES)
+    await patchMissingFields(strapi, 'api::home.home', homeEn, LOCALE_EN)
+  })
+  await paso(strapi, 'campos nuevos de Textos de interfaz', async () => {
+    await patchMissingFields(strapi, 'api::textos-interfaz.textos-interfaz', textosInterfaz, LOCALE_ES)
+    await patchMissingFields(strapi, 'api::textos-interfaz.textos-interfaz', textosInterfazEn, LOCALE_EN)
+  })
+  await paso(strapi, 'detalle de plataformas', async () => {
+    for (const { orden, ...datos } of detallePlataformas) {
+      await patchCollectionItem(strapi, 'api::plataforma.plataforma', 'orden', orden, datos, LOCALE_ES)
+    }
+    for (const { orden, ...datos } of detallePlataformasEn) {
+      await patchCollectionItem(strapi, 'api::plataforma.plataforma', 'orden', orden, datos, LOCALE_EN)
+    }
+  })
+
+  // --- Versiones en inglés, sobre los mismos documentos ---------------------
+  await paso(strapi, 'traducción de plataformas', () =>
+    translateCollection(strapi, 'api::plataforma.plataforma', plataformasEn, 'orden'),
+  )
+  await paso(strapi, 'traducción de servicios', () =>
+    translateCollection(strapi, 'api::servicio.servicio', serviciosEn, 'orden'),
+  )
+  await paso(strapi, 'traducción de boletines', () =>
+    translateCollection(strapi, 'api::boletin.boletin', boletinesEn, 'slugEs', 'slug'),
+  )
+  await paso(strapi, 'traducción de componentes de portal', () =>
+    translateCollection(
+      strapi,
+      'api::componente-portal.componente-portal',
+      componentesPortalEn,
+      'clave',
+    ),
+  )
+  await paso(strapi, 'traducción de Home', () =>
+    translateSingleType(strapi, 'api::home.home', homeEn),
+  )
+  await paso(strapi, 'traducción de Configuración del sitio', () =>
+    translateSingleType(
+      strapi,
+      'api::configuracion-sitio.configuracion-sitio',
+      configuracionSitioEn,
+    ),
+  )
+  await paso(strapi, 'traducción de Textos de interfaz', () =>
+    translateSingleType(strapi, 'api::textos-interfaz.textos-interfaz', textosInterfazEn),
   )
 
-  await seedSingleType(
-    strapi,
-    'api::textos-interfaz.textos-interfaz',
-    textosInterfaz,
-    'Textos de interfaz',
-  )
-  await translateSingleType(strapi, 'api::textos-interfaz.textos-interfaz', textosInterfazEn)
-  await patchMissingFields(strapi, 'api::textos-interfaz.textos-interfaz', textosInterfaz, LOCALE_ES)
-  await patchMissingFields(strapi, 'api::textos-interfaz.textos-interfaz', textosInterfazEn, LOCALE_EN)
-
-  // Contenido de demostración de cada plataforma (campos añadidos después)
-  for (const detalle of detallePlataformas) {
-    const { orden, ...datos } = detalle
-    await patchCollectionItem(strapi, 'api::plataforma.plataforma', 'orden', orden, datos, LOCALE_ES)
-  }
-  for (const detalle of detallePlataformasEn) {
-    const { orden, ...datos } = detalle
-    await patchCollectionItem(strapi, 'api::plataforma.plataforma', 'orden', orden, datos, LOCALE_EN)
-  }
-
-  await migrarUrlsBarraUtilidades(strapi, LOCALE_ES, configuracionSitio.barraUtilidades)
-  await migrarUrlsBarraUtilidades(strapi, LOCALE_EN, configuracionSitioEn.barraUtilidades)
-
-  // Ergonomía del panel: columnas, orden y textos de ayuda
-  await configureAdminViews(strapi)
+  // --- Ajustes finales ------------------------------------------------------
+  await paso(strapi, 'URLs de la barra de utilidades', async () => {
+    await migrarUrlsBarraUtilidades(strapi, LOCALE_ES, configuracionSitio.barraUtilidades)
+    await migrarUrlsBarraUtilidades(strapi, LOCALE_EN, configuracionSitioEn.barraUtilidades)
+  })
+  await paso(strapi, 'vistas del panel', () => configureAdminViews(strapi))
 }
