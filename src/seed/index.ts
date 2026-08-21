@@ -204,10 +204,35 @@ async function patchMissingFields(
   const actual = await strapi.documents(uid).findFirst({ locale, populate: '*' })
   if (!actual) return
 
-  const faltantes = Object.entries(data).filter(([campo]) => {
-    const valor = (actual as Record<string, unknown>)[campo]
-    return valor === null || valor === undefined || (Array.isArray(valor) && valor.length === 0)
-  })
+  const esObjetoPlano = (v: unknown): v is Record<string, unknown> =>
+    typeof v === 'object' && v !== null && !Array.isArray(v)
+
+  const faltantes: [string, unknown][] = []
+
+  for (const [campo, valorSemilla] of Object.entries(data)) {
+    const actualValor = (actual as Record<string, unknown>)[campo]
+    const vacio =
+      actualValor === null ||
+      actualValor === undefined ||
+      (Array.isArray(actualValor) && actualValor.length === 0)
+
+    if (vacio) {
+      faltantes.push([campo, valorSemilla])
+      continue
+    }
+
+    // Los componentes de un solo nivel se completan clave a clave: si se añade
+    // un campo nuevo dentro del componente, el objeto ya existe y sin esto se
+    // daría por bueno, dejando el campo nuevo vacío para siempre.
+    if (esObjetoPlano(valorSemilla) && esObjetoPlano(actualValor)) {
+      const subFaltantes = Object.entries(valorSemilla).filter(
+        ([clave]) => actualValor[clave] === null || actualValor[clave] === undefined,
+      )
+      if (subFaltantes.length > 0) {
+        faltantes.push([campo, { ...actualValor, ...Object.fromEntries(subFaltantes) }])
+      }
+    }
+  }
 
   if (faltantes.length === 0) return
 
