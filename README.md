@@ -76,6 +76,11 @@ con el dominio del front.
 
 > El plan gratuito duerme el servicio tras 15 minutos: la primera petición tarda ~30 s.
 
+La imagen conserva `tsconfig.json` a propósito: Strapi comprueba que exista para saber
+que es un proyecto TypeScript y buscar la configuración en `dist/config`. Sin ese archivo
+arranca creyendo que es JavaScript, no encuentra `./config` y falla con *Cannot
+destructure property 'client' of 'db.config.connection'*.
+
 ### Neon u otro Postgres gestionado
 
 Borre el bloque `databases` de `render.yaml` y defina `DATABASE_URL` a mano. Use el

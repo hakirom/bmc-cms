@@ -18,8 +18,15 @@ ENV NODE_ENV=production
 
 # `strapi build` (proyecto TypeScript) deja todo en dist/, incluido el panel
 # de administración en dist/build. No existe un build/ en la raíz.
+#
+# tsconfig.json es imprescindible en la imagen final aunque no se compile nada
+# en ella: Strapi decide si el proyecto es TypeScript comprobando que ese archivo
+# exista, y de ahí saca que la configuración vive en dist/config. Sin él busca
+# en ./config, no encuentra nada y muere al arrancar con
+# "Cannot destructure property 'client' of 'db.config.connection'".
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
+COPY --from=build /app/tsconfig.json ./tsconfig.json
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/public ./public
 COPY --from=build /app/database ./database
