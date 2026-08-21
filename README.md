@@ -62,6 +62,29 @@ idioma y textos. Tras cambiar algo ahí hay que reiniciar `npm run develop`.
 En Strapi 5.52 el `index.html` del admin se genera sin `<link rel="icon">` y con título
 fijo, así que `config.head.favicon` no se aplica: ambos se inyectan desde `bootstrap()`.
 
+## CORS: autorizar al front
+
+`FRONTEND_URLS` declara qué dominios pueden llamar a la API. Separados por comas y **sin
+barra final**. Admite comodines, necesarios porque Vercel crea un dominio por cada vista
+previa:
+
+```
+FRONTEND_URLS=https://bmc-web.vercel.app,https://bmc-web-*.vercel.app
+```
+
+En desarrollo se permite cualquier origen; la restricción solo aplica con
+`NODE_ENV=production`. Si falta la variable, el CMS solo autoriza `localhost` y el
+navegador bloqueará al front con un error de *Access-Control-Allow-Origin*.
+
+Para comprobarlo sin abrir el navegador:
+
+```bash
+curl -s -D - -o /dev/null -H "Origin: https://su-front.vercel.app" \
+  https://su-cms.onrender.com/api/plataformas | grep -i access-control-allow-origin
+```
+
+Si no aparece la cabecera, el origen no está autorizado.
+
 ## Despliegue
 
 Strapi necesita **proceso persistente y base de datos externa**. El driver `pg` ya está
