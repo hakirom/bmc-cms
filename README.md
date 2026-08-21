@@ -110,6 +110,14 @@ Tres cosas que hacen fallar la importación en Vercel y no son evidentes:
 Si el CMS queda detrás de un dominio propio o un CDN, defina `PUBLIC_URL` con la URL
 pública: Strapi la usará tal cual en vez de componerla con host y puerto.
 
+**Variables obligatorias**, o la función devolverá 500 nada más arrancar: `APP_KEYS`,
+`JWT_SECRET`, `ADMIN_JWT_SECRET`, `API_TOKEN_SALT`, `TRANSFER_TOKEN_SALT`,
+`ENCRYPTION_KEY`, `DATABASE_CLIENT` y `DATABASE_URL`. Sin `JWT_SECRET` el plugin
+users-permissions aborta el arranque. La función devuelve el motivo en texto plano, así
+que basta con abrir `/_health` para saber qué falta.
+
+`HOST` y `PORT` no hacen falta en serverless: puede borrarlas.
+
 Limitaciones asumidas:
 
 - **Arranque en frío** de varios segundos en cada instancia nueva; el primer acceso al

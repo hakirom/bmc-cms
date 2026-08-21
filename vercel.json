@@ -8,6 +8,13 @@
       "includeFiles": "dist/**"
     }
   },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/admin",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",

@@ -38,6 +38,28 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     throw error
   })
 
-  const callback = await arranque
-  return callback(req, res)
+  try {
+    const callback = await arranque
+    return callback(req, res)
+  } catch (error) {
+    // Sin esto, un fallo de arranque (falta JWT_SECRET, base inaccesible…)
+    // se ve como un 500 genérico de Vercel y hay que ir a los logs para saber
+    // qué pasó. Devolvemos el motivo, que en una demo ahorra mucho tiempo.
+    const motivo = error instanceof Error ? error.message : String(error)
+    console.error('[strapi] El CMS no pudo arrancar:', error)
+
+    res.statusCode = 500
+    res.setHeader('content-type', 'text/plain; charset=utf-8')
+    res.end(
+      [
+        'El CMS no pudo arrancar.',
+        '',
+        motivo,
+        '',
+        'Revise las variables de entorno del proyecto: APP_KEYS, JWT_SECRET,',
+        'ADMIN_JWT_SECRET, API_TOKEN_SALT, TRANSFER_TOKEN_SALT, ENCRYPTION_KEY,',
+        'DATABASE_CLIENT y DATABASE_URL.',
+      ].join('\n'),
+    )
+  }
 }
