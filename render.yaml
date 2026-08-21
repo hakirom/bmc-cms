@@ -1,8 +1,9 @@
-# Blueprint de Render: crea el CMS y su Postgres de una vez.
+# Blueprint de Render para el CMS, reutilizando la base de datos Neon existente.
 # Uso: Render → New → Blueprint → apuntar a este repositorio.
 #
-# Si prefiere Neon en lugar del Postgres de Render, borre el bloque `databases`
-# y cambie DATABASE_URL por `sync: false` para pegarla en el panel.
+# DATABASE_URL queda como `sync: false`: Render la pedirá al desplegar y usted
+# pega ahí la cadena de Neon. Si prefiere que Render cree su propio Postgres,
+# sustituya ese bloque por `fromDatabase` y añada una sección `databases`.
 services:
   - type: web
     name: bmc-cms
@@ -20,6 +21,7 @@ services:
       - key: PORT
         value: 1337
 
+      # Secretos generados por Render: no hay que copiarlos a ningún sitio
       - key: APP_KEYS
         generateValue: true
       - key: API_TOKEN_SALT
@@ -35,25 +37,15 @@ services:
 
       - key: DATABASE_CLIENT
         value: postgres
+      # Pegue aquí la cadena de Neon. Use el endpoint DIRECTO (sin `-pooler`):
+      # en un servicio persistente el pool lo gestiona Strapi.
       - key: DATABASE_URL
-        fromDatabase:
-          name: bmc-postgres
-          property: connectionString
-      - key: DATABASE_SSL
-        value: 'true'
-      - key: DATABASE_SSL_REJECT_UNAUTHORIZED
-        value: 'false'
+        sync: false
       - key: DATABASE_POOL_MIN
         value: '0'
       - key: DATABASE_POOL_MAX
         value: '5'
 
-      # Dominio del front, para CORS. Se define en el panel tras desplegarlo.
+      # Dominio del front, para CORS
       - key: FRONTEND_URLS
         sync: false
-
-databases:
-  - name: bmc-postgres
-    plan: free
-    databaseName: bmc
-    user: bmc

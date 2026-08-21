@@ -88,41 +88,27 @@ Pruebe la conexión antes de desplegar:
 DATABASE_CLIENT=postgres DATABASE_URL='su-cadena' NODE_ENV=production npm run start
 ```
 
-### Vercel (experimental, no recomendado)
+### Vercel: no funciona (comprobado)
 
-`api/index.ts` arranca Strapi y delega en el callback de Koa; `vercel.json` enruta
-`/admin`, `/api` y las rutas de plugins a esa función. Root Directory: la raíz del repo.
+`api/index.ts` y `vercel.json` quedan en el repositorio como registro del intento, pero
+**el CMS no puede desplegarse en Vercel**. El obstáculo no es de configuración:
 
-Tres cosas que hacen fallar la importación en Vercel y no son evidentes:
+Strapi resuelve sus plugins en tiempo de ejecución (`require.resolve(
+'@strapi/content-manager/package.json')`). El empaquetador de Vercel solo incluye lo que
+puede rastrear de forma estática, así que la función arranca y muere con
+`Cannot find module '@strapi/content-manager/package.json'`.
 
-> - `vercel.json` no admite comentarios: una clave `"//"` da *should NOT have additional
->   property*.
-> - `engines.node` debe ser una versión concreta (`22.x`). El rango que genera Strapi
->   (`>=20.0.0 <=26.x.x`) produce *Found invalid Node.js Version*.
-> - `functions.memory` y `maxDuration` por encima de lo que permite el plan (3009 MB es
->   de plan Pro) son rechazados en Hobby. Se ajustan en **Settings → Functions**.
-> - Una variable **definida pero vacía** no es lo mismo que ausente: `env()` devuelve la
->   cadena vacía y no aplica el valor por defecto. Con `HOST` o `PORT` vacíos el build
->   muere con `TypeError: Invalid URL`, porque Strapi compone `http://:1337`. Pasa al
->   importar variables desde un archivo de ejemplo. `config/server.ts` ya lo tolera, pero
->   conviene no dejar variables en blanco en el panel.
+La solución sería incluir `node_modules` en el bundle, y ahí está el muro:
 
-Si el CMS queda detrás de un dominio propio o un CDN, defina `PUBLIC_URL` con la URL
-pública: Strapi la usará tal cual en vez de componerla con host y puerto.
+| | Tamaño |
+|---|---|
+| `node_modules` de este proyecto | **672 MB** |
+| Solo `@strapi` | 113 MB |
+| Límite de una función en Vercel | **250 MB** descomprimido |
 
-**Variables obligatorias**, o la función devolverá 500 nada más arrancar: `APP_KEYS`,
-`JWT_SECRET`, `ADMIN_JWT_SECRET`, `API_TOKEN_SALT`, `TRANSFER_TOKEN_SALT`,
-`ENCRYPTION_KEY`, `DATABASE_CLIENT` y `DATABASE_URL`. Sin `JWT_SECRET` el plugin
-users-permissions aborta el arranque. La función devuelve el motivo en texto plano, así
-que basta con abrir `/_health` para saber qué falta.
+Ni siquiera incluyendo únicamente `@strapi` cabría, y seguirían apareciendo otros
+`require` dinámicos. Antes de llegar aquí hubo que sortear la clave `"//"` en
+`vercel.json`, el rango de `engines.node`, los límites de memoria del plan Hobby, las
+variables vacías y los secretos ausentes: todos resolubles, este no.
 
-`HOST` y `PORT` no hacen falta en serverless: puede borrarlas.
-
-Limitaciones asumidas:
-
-- **Arranque en frío** de varios segundos en cada instancia nueva; el primer acceso al
-  panel puede expirar.
-- **`bootstrap` repetido**: el seed corre en cada arranque en frío. Ponga
-  `SEED_DISABLED=true` cuando el contenido ya esté cargado.
-- **Disco de solo lectura**: la subida de archivos necesita Cloudinary o S3.
-- Strapi **no soporta serverless oficialmente**.
+**Despliegue el front en Vercel y el CMS en un host con proceso persistente.**
