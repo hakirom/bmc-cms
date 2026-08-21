@@ -148,8 +148,9 @@ export const home = {
   titulo: 'Somos la bolsa de productos y servicios de Colombia.',
   subtitulo:
     'Contribuimos al desarrollo sostenible y generamos valor al país promoviendo, facilitando y administrando mercados eficientes y financiación no bancaria a través de:',
-  ctaPrimario: 'Conozca nuestros mercados',
-  ctaSecundario: 'Acceso a plataformas',
+  // Los CTA son enlaces: el destino se edita en el panel, no está en el código.
+  ctaPrimario: { etiqueta: 'Conozca nuestros mercados', url: '/portal' },
+  ctaSecundario: { etiqueta: 'Acceso a plataformas', url: '/acceso' },
   tituloServicios:
     'Brindamos transparencia, seguridad y eficiencia en los mercados que administramos.',
   introServicios:
@@ -157,17 +158,24 @@ export const home = {
   tituloValor: '¿Cómo agregamos valor a Colombia?',
   etiquetaPlataformas: 'Nuestras plataformas',
   tituloTablero: 'Cierre | Rueda de negocios',
-  ctaTablero: 'Más información del mercado',
+  ctaTablero: { etiqueta: 'Más información del mercado', url: '/portal' },
   notaTablero: 'Cifras de demostración. No corresponden a operaciones reales del mercado.',
   eyebrowBoletines: 'Boletines del mercado',
   tituloBoletines: 'Información y análisis para decidir a tiempo',
   eyebrowContacto: 'Contáctenos',
   tituloContacto: 'Estamos para atenderle',
+  panelCifras: {
+    titulo: 'Indicadores de la BMC',
+    descripcion: 'Consolidado institucional del último cierre',
+    fuente: 'Power BI',
+    actualizado: 'Actualizado hoy, 06:00',
+    enlaceInforme: { etiqueta: 'Abrir informe completo', url: '/portal' },
+  },
   cifras: [
-    { valor: '46', etiqueta: 'años de experiencia' },
-    { valor: '+3.500', etiqueta: 'entidades y empresas atendidas' },
-    { valor: '+40', etiqueta: 'sociedades comisionistas' },
-    { valor: '24/7', etiqueta: 'plataformas de registro disponibles' },
+    { valor: '46', etiqueta: 'años de experiencia', tendencia: 'estable', progreso: 92 },
+    { valor: '+3.500', etiqueta: 'entidades y empresas atendidas', tendencia: '+8,4 % anual', progreso: 74 },
+    { valor: '+40', etiqueta: 'sociedades comisionistas', tendencia: '+2 este año', progreso: 58 },
+    { valor: '24/7', etiqueta: 'plataformas de registro disponibles', tendencia: '99,9 % disponibilidad', progreso: 99 },
   ],
   mensajesValor: [
     { texto: 'Damos acceso al mercado a PYMES para que vendan sus productos y servicios a grandes empresas y al Estado.' },

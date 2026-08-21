@@ -221,6 +221,28 @@ async function patchMissingFields(
       continue
     }
 
+    // Componentes repetibles: se completan elemento a elemento, por posición, y
+    // solo si el número de elementos coincide. Si el editor añadió o quitó
+    // alguno, no se toca nada: la correspondencia dejaría de ser fiable.
+    if (Array.isArray(valorSemilla) && Array.isArray(actualValor)) {
+      if (valorSemilla.length !== actualValor.length) continue
+
+      const fusionados = actualValor.map((elemento, i) => {
+        const semilla = valorSemilla[i]
+        if (!esObjetoPlano(elemento) || !esObjetoPlano(semilla)) return elemento
+
+        const claves = Object.entries(semilla).filter(
+          ([clave]) => elemento[clave] === null || elemento[clave] === undefined,
+        )
+        return claves.length > 0 ? { ...elemento, ...Object.fromEntries(claves) } : elemento
+      })
+
+      if (JSON.stringify(fusionados) !== JSON.stringify(actualValor)) {
+        faltantes.push([campo, fusionados])
+      }
+      continue
+    }
+
     // Los componentes de un solo nivel se completan clave a clave: si se añade
     // un campo nuevo dentro del componente, el objeto ya existe y sin esto se
     // daría por bueno, dejando el campo nuevo vacío para siempre.

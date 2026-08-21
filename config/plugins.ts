@@ -25,6 +25,15 @@ const deniedExecutableTypes = [
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({
   'users-permissions': {
     config: {
+      // Obligatorio en producción; en desarrollo se usa un valor fijo para que
+      // un clon recién hecho arranque sin crear un .env a mano.
+      jwtSecret:
+        env('JWT_SECRET', '') ||
+        (env('NODE_ENV') === 'production'
+          ? (() => {
+              throw new Error('Falta JWT_SECRET. Genérelo con: openssl rand -base64 32')
+            })()
+          : 'desarrollo-jwt-secret'),
       jwtManagement: 'refresh',
       sessions: {
         httpOnly: true,

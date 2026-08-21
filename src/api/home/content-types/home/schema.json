@@ -41,8 +41,9 @@
       }
     },
     "ctaPrimario": {
-      "type": "string",
-      "required": true,
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.enlace",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -50,7 +51,9 @@
       }
     },
     "ctaSecundario": {
-      "type": "string",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.enlace",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -143,8 +146,9 @@
       }
     },
     "ctaTablero": {
-      "type": "string",
-      "default": "Más información del mercado",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.enlace",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -188,6 +192,16 @@
     },
     "tituloContacto": {
       "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "panelCifras": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.panel-bi",
       "pluginOptions": {
         "i18n": {
           "localized": true

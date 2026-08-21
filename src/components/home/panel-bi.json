@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_home_panel_bi",
+  "info": {
+    "displayName": "Panel de indicadores",
+    "description": "Marco del tablero embebido de indicadores (simula un informe de Power BI)",
+    "icon": "chartPie"
+  },
+  "options": {},
+  "attributes": {
+    "titulo": { "type": "string", "required": true },
+    "descripcion": { "type": "string" },
+    "fuente": { "type": "string", "required": true, "default": "Power BI" },
+    "actualizado": { "type": "string" },
+    "enlaceInforme": { "type": "component", "repeatable": false, "component": "shared.enlace" }
+  }
+}
