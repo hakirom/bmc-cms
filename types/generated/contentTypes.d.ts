@@ -499,14 +499,36 @@ export interface ApiBoletinBoletin extends Struct.CollectionTypeSchema {
           localized: false;
         };
       }>;
+    generarConIA: Schema.Attribute.Boolean &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<false>;
+    ideaBase: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 1200;
+      }>;
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::boletin.boletin'
     >;
     publishedAt: Schema.Attribute.DateTime;
+    redactadoPor: Schema.Attribute.Enumeration<['manual', 'local', 'modelo']> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<'manual'>;
     resumen: Schema.Attribute.Text &
-      Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -516,14 +538,12 @@ export interface ApiBoletinBoletin extends Struct.CollectionTypeSchema {
         maxLength: 400;
       }>;
     slug: Schema.Attribute.UID<'titulo'> &
-      Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
     titulo: Schema.Attribute.String &
-      Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;

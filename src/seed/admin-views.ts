@@ -55,16 +55,41 @@ const AJUSTES: Ajuste[] = [
   {
     uid: 'api::boletin.boletin',
     settings: { mainField: 'titulo', defaultSortBy: 'fecha', defaultSortOrder: 'DESC', pageSize: 20 },
-    list: ['titulo', 'categoria', 'fecha', 'destacado'],
+    list: ['titulo', 'categoria', 'fecha', 'redactadoPor'],
     edit: [
-      [{ name: 'titulo', size: 8 }, { name: 'categoria', size: 4 }],
-      [{ name: 'slug', size: 6 }, { name: 'fecha', size: 6 }],
+      // La redacción asistida va primero: es por donde empieza el editor.
+      [{ name: 'ideaBase', size: 12 }],
+      [
+        { name: 'generarConIA', size: 4 },
+        { name: 'categoria', size: 4 },
+        { name: 'fecha', size: 4 },
+      ],
+      [{ name: 'titulo', size: 8 }, { name: 'slug', size: 4 }],
       [{ name: 'resumen', size: 12 }],
       [{ name: 'contenido', size: 12 }],
-      [{ name: 'adjunto', size: 6 }, { name: 'destacado', size: 6 }],
+      [
+        { name: 'adjunto', size: 4 },
+        { name: 'destacado', size: 4 },
+        { name: 'redactadoPor', size: 4 },
+      ],
     ],
     ayudas: {
-      titulo: { description: 'Titular del boletín. Aparece en la tarjeta del inicio.' },
+      ideaBase: {
+        description:
+          'Escriba la idea en bruto, con sus palabras: qué pasó, cuándo y con qué producto. ' +
+          'Active «Generar con IA» y guarde: el título, el resumen y el cuerpo se redactan ' +
+          'siguiendo las reglas editoriales de la BMC. Después puede ajustar el texto a mano.',
+        placeholder: 'El precio del maíz amarillo subió 6 % en agosto por la menor oferta…',
+      },
+      generarConIA: {
+        description:
+          'Al guardar, redacta el boletín a partir de la idea y se apaga solo. Vuelva a ' +
+          'activarlo únicamente si quiere reemplazar el texto actual: sobrescribe lo escrito.',
+      },
+      redactadoPor: {
+        description: 'Queda como registro de si el texto se escribió a mano o lo generó el asistente.',
+      },
+      titulo: { description: 'Titular del boletín. Aparece en la tarjeta del inicio. Lo rellena el asistente si usa la generación.' },
       resumen: { description: 'Entradilla de máximo 400 caracteres; es lo único que se ve en la portada.' },
       contenido: { description: 'Cuerpo completo del boletín. Solo se muestra en la página de detalle.' },
       fecha: { description: `Fecha de publicación; ordena el listado. ${COMPARTIDO}` },

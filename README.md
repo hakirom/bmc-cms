@@ -62,6 +62,30 @@ idioma y textos. Tras cambiar algo ahí hay que reiniciar `npm run develop`.
 En Strapi 5.52 el `index.html` del admin se genera sin `<link rel="icon">` y con título
 fijo, así que `config.head.favicon` no se aplica: ambos se inyectan desde `bootstrap()`.
 
+## Redacción asistida de boletines
+
+El editor escribe la idea en bruto en **`ideaBase`**, activa **`generarConIA`** y guarda:
+al guardar se redactan título, resumen y cuerpo siguiendo las reglas editoriales de la
+BMC. El interruptor se apaga solo, para que una edición posterior no sobrescriba lo que
+el editor haya ajustado a mano, y `redactadoPor` deja constancia del origen del texto.
+
+| Archivo | Qué hace |
+|---|---|
+| `src/utils/reglas-bmc.ts` | Identidad, valores, obligaciones y prohibiciones editoriales |
+| `src/utils/redactor-bmc.ts` | Redactor local + adaptador de modelo |
+| `src/api/boletin/content-types/boletin/lifecycles.ts` | Dispara la redacción al guardar |
+
+**Sin claves ni llamadas externas por defecto.** El redactor local es determinista y es el
+que corre en la demo. Si define `ANTHROPIC_API_KEY` (y opcionalmente `ANTHROPIC_MODEL`),
+se usa el modelo real y, si este falla, cae al redactor local: el editor nunca se queda
+sin borrador.
+
+Las reglas viven en un solo archivo: cambiar el tono de todo lo que se genera es editar
+`reglas-bmc.ts`.
+
+> Lo que produce es un **borrador**. El flujo es redactar, revisar y publicar; por eso el
+> contenido queda en borrador hasta que alguien pulsa Publicar.
+
 ## CORS: autorizar al front
 
 `FRONTEND_URLS` declara qué dominios pueden llamar a la API. Separados por comas y **sin

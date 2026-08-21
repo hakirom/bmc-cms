@@ -13,7 +13,6 @@
   "attributes": {
     "titulo": {
       "type": "string",
-      "required": true,
       "maxLength": 200,
       "pluginOptions": {
         "i18n": {
@@ -24,7 +23,6 @@
     "slug": {
       "type": "uid",
       "targetField": "titulo",
-      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -42,7 +40,6 @@
     },
     "resumen": {
       "type": "text",
-      "required": true,
       "maxLength": 400,
       "pluginOptions": {
         "i18n": {
@@ -92,6 +89,38 @@
       "pluginOptions": {
         "i18n": {
           "localized": false
+        }
+      }
+    },
+    "ideaBase": {
+      "type": "text",
+      "maxLength": 1200,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "generarConIA": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "redactadoPor": {
+      "type": "enumeration",
+      "enum": [
+        "manual",
+        "local",
+        "modelo"
+      ],
+      "default": "manual",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
         }
       }
     }
