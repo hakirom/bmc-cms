@@ -1,0 +1,23 @@
+# App Runner construye desde el código fuente: no hace falta Docker ni ECR.
+# El Dockerfile del repositorio sigue sirviendo para Render, Fly o un VPS.
+version: 1.0
+runtime: nodejs22
+build:
+  commands:
+    build:
+      - npm ci
+      - npm run build
+run:
+  runtime-version: 22
+  command: npm run start
+  network:
+    port: 1337
+  env:
+    - name: NODE_ENV
+      value: production
+    - name: HOST
+      value: 0.0.0.0
+    - name: PORT
+      value: '1337'
+    - name: DATABASE_CLIENT
+      value: postgres

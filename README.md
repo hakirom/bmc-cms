@@ -115,7 +115,23 @@ Strapi necesita **proceso persistente y base de datos externa**. El driver `pg` 
 incluido: `create-strapi` solo instala el de la base elegida al crear el proyecto (SQLite),
 y sin él cualquier despliegue con Postgres falla con *Cannot find module 'pg'*.
 
-### Render (recomendado)
+### AWS App Runner
+
+`apprunner.yaml` permite desplegar **desde el código fuente**: App Runner clona el
+repositorio y compila solo, sin Docker ni ECR. En la consola: **Create service → Source
+code → GitHub**, rama `main`, y en configuración elegir *Use a configuration file*.
+
+Variables que hay que añadir en el servicio (las de `.env.production.example`):
+`APP_KEYS`, `JWT_SECRET`, `ADMIN_JWT_SECRET`, `API_TOKEN_SALT`, `TRANSFER_TOKEN_SALT`,
+`ENCRYPTION_KEY`, `DATABASE_URL` y `FRONTEND_URLS`.
+
+Ajustes recomendados: **1 vCPU / 2 GB** (con menos, la compilación del panel se queda
+corta de memoria) y health check en `/_health`.
+
+> Las subidas de archivos necesitan `@strapi/provider-upload-aws-s3` y un bucket: el
+> disco del contenedor es efímero y lo subido se pierde en cada despliegue.
+
+### Render
 
 `render.yaml` es un blueprint: **New → Blueprint** sobre este repositorio crea el servicio
 y un Postgres gratuito, con los secretos generados solos. Después defina `FRONTEND_URLS`
