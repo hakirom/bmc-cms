@@ -11,6 +11,11 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
+# Se eliminan las dependencias de desarrollo tras compilar: la imagen pasa de
+# ~1,3 GB a la mitad. `typescript` se queda porque Strapi lo necesita en
+# ejecución para localizar la configuración compilada en dist/.
+RUN npm prune --omit=dev
+
 FROM node:22-alpine AS runtime
 RUN apk add --no-cache vips
 WORKDIR /app

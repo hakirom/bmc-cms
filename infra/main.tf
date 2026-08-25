@@ -57,6 +57,68 @@ resource "random_password" "secretos" {
   special  = false
 }
 
+# Registro de la imagen. La instancia descarga de aquí: no clona el repositorio,
+# que además es privado y exigiría credenciales en la máquina.
+resource "aws_ecr_repository" "cms" {
+  name                 = var.nombre
+  image_tag_mutability = "MUTABLE"
+  force_delete         = true
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+# Conserva solo las últimas 3 imágenes: ECR cobra por almacenamiento.
+resource "aws_ecr_lifecycle_policy" "cms" {
+  repository = aws_ecr_repository.cms.name
+
+  policy = jsonencode({
+    rules = [{
+      rulePriority = 1
+      description  = "Conservar solo las 3 imagenes mas recientes"
+      selection = {
+        tagStatus   = "any"
+        countType   = "imageCountMoreThan"
+        countNumber = 3
+      }
+      action = { type = "expire" }
+    }]
+  })
+}
+
+data "aws_iam_policy_document" "asumir_ec2" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "instancia" {
+  name               = "${var.nombre}-rol"
+  assume_role_policy = data.aws_iam_policy_document.asumir_ec2.json
+}
+
+# Permiso de solo lectura sobre ECR: la instancia descarga, nunca publica.
+resource "aws_iam_role_policy_attachment" "ecr_lectura" {
+  role       = aws_iam_role.instancia.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
+# Permite entrar por Session Manager sin abrir el puerto 22 ni usar llaves.
+resource "aws_iam_role_policy_attachment" "ssm" {
+  role       = aws_iam_role.instancia.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_instance_profile" "instancia" {
+  name = "${var.nombre}-perfil"
+  role = aws_iam_role.instancia.name
+}
+
 resource "aws_security_group" "cms" {
   name        = "${var.nombre}-sg"
   description = "CMS: SSH restringido y puerto de aplicacion solo desde CloudFront"
@@ -92,6 +154,7 @@ resource "aws_instance" "cms" {
   instance_type          = "t3.micro" # capa gratuita durante 12 meses
   vpc_security_group_ids = [aws_security_group.cms.id]
   key_name               = var.nombre_llave_ssh != "" ? var.nombre_llave_ssh : null
+  iam_instance_profile   = aws_iam_instance_profile.instancia.name
 
   root_block_device {
     volume_size = 20
@@ -106,7 +169,8 @@ resource "aws_instance" "cms" {
   }
 
   user_data = templatefile("${path.module}/user-data.sh.tftpl", {
-    repositorio    = var.repositorio
+    imagen         = "${aws_ecr_repository.cms.repository_url}:latest"
+    region         = var.region
     database_url   = var.database_url
     frontend_urls  = var.frontend_urls
     app_keys       = "${random_password.secretos["app_key_1"].result},${random_password.secretos["app_key_2"].result}"

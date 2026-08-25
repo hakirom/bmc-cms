@@ -12,6 +12,10 @@ repositorio, compilación y servicio de systemd.
 - AWS CLI con sesión iniciada — `aws sts get-caller-identity` debe responder
 - La cadena de conexión de Neon (endpoint **directo**, sin `-pooler`)
 
+El CMS corre **como contenedor Docker**: la imagen se construye en su equipo, se publica
+en ECR y la instancia solo la descarga. Así la máquina no clona el repositorio —que es
+privado y exigiría credenciales— ni compila nada.
+
 ## Uso
 
 ```bash
@@ -20,12 +24,17 @@ cp terraform.tfvars.example terraform.tfvars
 # rellene terraform.tfvars: su IP, la cadena de Neon y el dominio del front
 
 terraform init
-terraform plan     # revise qué se va a crear
-terraform apply
+terraform apply          # crea los 17 recursos, incluido el registro ECR
+./publicar-imagen.sh     # construye la imagen, la publica y reinicia el CMS
 ```
 
-Al terminar imprime la URL del CMS. La instancia tarda **entre 5 y 10 minutos más** en
-quedar operativa: la compilación del panel de Strapi es lenta en una `t3.micro`.
+`terraform apply` termina en unos minutos, pero el CMS no responderá hasta que la imagen
+exista: el servicio reintenta cada 15 segundos, así que en cuanto `publicar-imagen.sh`
+acaba, arranca solo.
+
+Para desplegar cambios más adelante basta con volver a ejecutar `./publicar-imagen.sh`.
+
+Requiere Docker en su equipo. En macOS: `brew install colima docker && colima start`.
 
 Para seguir el aprovisionamiento:
 
@@ -54,8 +63,17 @@ panel funcione detrás del CDN.
 **El puerto 1337 solo acepta a CloudFront**, mediante la lista de rangos gestionada
 `com.amazonaws.global.cloudfront.origin-facing`. La instancia no queda expuesta.
 
-**El swap de 2 GB no es un extra.** Con 1 GB de RAM la compilación del panel falla sin
-decir por qué.
+**El swap de 2 GB no es un extra.** Aunque la imagen ya viene compilada, Strapi supera el
+gigabyte de la `t3.micro` al arrancar y el proceso moriría.
+
+**`typescript` es dependencia de producción**, no de desarrollo. Strapi lo usa en ejecución
+para detectar que el proyecto es TypeScript y buscar la configuración en `dist/`; sin él
+arranca creyendo que es JavaScript y falla con un error que no menciona TypeScript por
+ninguna parte.
+
+**La imagen pesa ~1,3 GB** y es lo que cuesta Strapi: `@strapi` 119 MB, `@swc` 65 MB,
+sharp 44 MB. Podar las dependencias de desarrollo apenas la reduce. La política de ciclo
+de vida de ECR conserva solo las tres últimas para no acumular almacenamiento.
 
 ## Advertencias
 

@@ -15,3 +15,16 @@ output "ip_de_la_instancia" {
 output "comando_ssh" {
   value = var.nombre_llave_ssh != "" ? "ssh -i ~/.ssh/${var.nombre_llave_ssh}.pem ec2-user@${aws_eip.cms.public_ip}" : "Sin llave SSH: use EC2 Instance Connect desde la consola"
 }
+
+output "registro_de_imagenes" {
+  description = "URL del repositorio ECR donde se publica la imagen"
+  value       = aws_ecr_repository.cms.repository_url
+}
+
+output "id_de_la_instancia" {
+  value = aws_instance.cms.id
+}
+
+output "region" {
+  value = var.region
+}

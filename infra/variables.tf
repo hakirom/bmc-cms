@@ -10,12 +10,6 @@ variable "nombre" {
   default     = "bmc-cms"
 }
 
-variable "repositorio" {
-  description = "Repositorio Git del CMS"
-  type        = string
-  default     = "https://github.com/hakirom/bmc-cms.git"
-}
-
 variable "ip_administracion" {
   description = "Su IP pública con máscara, para el acceso SSH. Ejemplo: 190.1.2.3/32"
   type        = string
