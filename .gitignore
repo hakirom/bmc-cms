@@ -135,3 +135,9 @@ infra/*.tfstate
 infra/*.tfstate.*
 infra/terraform.tfvars
 infra/.terraform.lock.hcl
+
+infra-azure/.terraform/
+infra-azure/*.tfstate
+infra-azure/*.tfstate.*
+infra-azure/terraform.tfvars
+infra-azure/.terraform.lock.hcl

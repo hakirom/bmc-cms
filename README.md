@@ -115,6 +115,12 @@ Strapi necesita **proceso persistente y base de datos externa**. El driver `pg` 
 incluido: `create-strapi` solo instala el de la base elegida al crear el proyecto (SQLite),
 y sin él cualquier despliegue con Postgres falla con *Cannot find module 'pg'*.
 
+### Azure Container Apps
+
+Guía en **[infra-azure/README.md](infra-azure/README.md)**: la misma imagen Docker sobre
+Container Apps, con HTTPS incluido y sin servidor que administrar. Estado de Terraform
+independiente del de AWS.
+
 ### AWS
 
 Guía completa por consola en **[docs/despliegue-aws.md](docs/despliegue-aws.md)**: EC2
@@ -123,6 +129,12 @@ Guía completa por consola en **[docs/despliegue-aws.md](docs/despliegue-aws.md)
 > **App Runner no funciona en el Free Plan** de AWS: la API responde
 > `SubscriptionRequiredException`. Requiere pasar la cuenta a Paid Plan. El
 > `apprunner.yaml` del repositorio queda listo para ese día.
+
+### Azure Container Apps
+
+Guía en **[infra-azure/README.md](infra-azure/README.md)**: la misma imagen Docker sobre
+Container Apps, con HTTPS incluido y sin servidor que administrar. Estado de Terraform
+independiente del de AWS.
 
 ### AWS App Runner (requiere Paid Plan)
 

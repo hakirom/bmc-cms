@@ -1,0 +1,8 @@
+# Copie a terraform.tfvars y rellene. Ese archivo NO se versiona.
+
+# Endpoint DIRECTO de Neon (sin -pooler)
+database_url  = "postgresql://usuario:clave@ep-xxxx.aws.neon.tech/neondb?sslmode=require"
+frontend_urls = "https://su-front.vercel.app,https://su-front-*.vercel.app"
+
+# 0 = escala a cero sin tráfico (más barato, arranque en frío de ~20 s)
+replicas_minimas = 1
