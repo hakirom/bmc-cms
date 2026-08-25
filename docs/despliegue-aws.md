@@ -3,6 +3,11 @@
 Guía por consola, pensada para una cuenta en **Free Plan**. Al final el CMS queda
 publicado con HTTPS y conectado a la base de datos Neon que ya existe.
 
+> **¿Prefiere no hacerlo a mano?** La misma arquitectura está automatizada con Terraform
+> en [`infra/`](../infra/README.md): un `terraform apply` crea los 11 recursos y
+> aprovisiona la instancia sola. Esta guía sigue siendo útil para entender qué se crea y
+> para diagnosticar si algo falla.
+
 ## Por qué EC2 y no App Runner
 
 App Runner sería más cómodo, pero **no está disponible en el Free Plan**: la API responde
