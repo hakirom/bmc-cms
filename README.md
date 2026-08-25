@@ -115,7 +115,16 @@ Strapi necesita **proceso persistente y base de datos externa**. El driver `pg` 
 incluido: `create-strapi` solo instala el de la base elegida al crear el proyecto (SQLite),
 y sin él cualquier despliegue con Postgres falla con *Cannot find module 'pg'*.
 
-### AWS App Runner
+### AWS
+
+Guía completa por consola en **[docs/despliegue-aws.md](docs/despliegue-aws.md)**: EC2
+`t3.micro` de capa gratuita + CloudFront para el HTTPS, reutilizando la base Neon.
+
+> **App Runner no funciona en el Free Plan** de AWS: la API responde
+> `SubscriptionRequiredException`. Requiere pasar la cuenta a Paid Plan. El
+> `apprunner.yaml` del repositorio queda listo para ese día.
+
+### AWS App Runner (requiere Paid Plan)
 
 `apprunner.yaml` permite desplegar **desde el código fuente**: App Runner clona el
 repositorio y compila solo, sin Docker ni ECR. En la consola: **Create service → Source
