@@ -196,7 +196,9 @@ resource "aws_cloudfront_distribution" "cms" {
   comment = "${var.nombre}: HTTPS para el CMS sin dominio propio"
 
   origin {
-    domain_name = aws_eip.cms.public_ip
+    # CloudFront rechaza una IP como origen; se usa el nombre DNS público que
+    # AWS asocia a la IP elástica, estable mientras no se libere.
+    domain_name = aws_eip.cms.public_dns
     origin_id   = "ec2"
 
     custom_origin_config {

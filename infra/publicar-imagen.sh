@@ -18,8 +18,11 @@ echo "▸ Autenticando en ECR…"
 aws ecr get-login-password --region "$REGION" \
   | docker login --username AWS --password-stdin "$CUENTA"
 
-echo "▸ Construyendo la imagen (varios minutos la primera vez)…"
-docker build -t "$REGISTRO:latest" ..
+# --platform es obligatorio: la instancia es x86_64 y en un Mac con Apple
+# Silicon la imagen saldría arm64. El contenedor arrancaría y moriría con
+# "exec format error", que no menciona la arquitectura por ninguna parte.
+echo "▸ Construyendo la imagen para linux/amd64 (varios minutos la primera vez)…"
+docker build --platform linux/amd64 -t "$REGISTRO:latest" ..
 
 echo "▸ Publicando…"
 docker push "$REGISTRO:latest"

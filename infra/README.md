@@ -36,6 +36,12 @@ Para desplegar cambios más adelante basta con volver a ejecutar `./publicar-ima
 
 Requiere Docker en su equipo. En macOS: `brew install colima docker && colima start`.
 
+> **La imagen se construye para `linux/amd64`**, que es la arquitectura de la `t3.micro`.
+> En un Mac con Apple Silicon, omitir `--platform` produce una imagen `arm64` que la
+> instancia descarga sin quejarse y muere al arrancar con `exec format error`. El script
+> ya lo fija; si construye a mano, no lo olvide. En un Mac la compilación va emulada y
+> tarda bastante más.
+
 Para seguir el aprovisionamiento:
 
 ```bash
