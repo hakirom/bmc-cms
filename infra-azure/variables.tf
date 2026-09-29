@@ -32,3 +32,9 @@ variable "replicas_minimas" {
   type        = number
   default     = 1
 }
+
+variable "registros_centralizados" {
+  description = "Crear un espacio de Log Analytics. Requiere registrar Microsoft.OperationalInsights en la suscripción"
+  type        = bool
+  default     = false
+}

@@ -9,6 +9,11 @@ terraform {
 provider "azurerm" {
   features {}
   subscription_id = var.suscripcion
+
+  # Sin esto, el proveedor intenta registrar decenas de servicios a nivel de
+  # suscripción al arrancar. Con un rol limitado al grupo de recursos eso
+  # devuelve 403 y el despliegue ni siquiera empieza.
+  resource_provider_registrations = "none"
 }
 
 # El grupo de recursos ya existe y lo administra el cliente: se consulta, no se
@@ -30,7 +35,10 @@ resource "azurerm_container_registry" "acr" {
   admin_enabled = true
 }
 
+# Opcional: exige registrar Microsoft.OperationalInsights en la suscripción.
+# Sin él la aplicación funciona igual, pero se pierden los registros centralizados.
 resource "azurerm_log_analytics_workspace" "logs" {
+  count               = var.registros_centralizados ? 1 : 0
   name                = "${var.nombre}-logs"
   resource_group_name = data.azurerm_resource_group.bmc.name
   location            = data.azurerm_resource_group.bmc.location
@@ -42,7 +50,7 @@ resource "azurerm_container_app_environment" "entorno" {
   name                       = "${var.nombre}-entorno"
   resource_group_name        = data.azurerm_resource_group.bmc.name
   location                   = data.azurerm_resource_group.bmc.location
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.logs.id
+  log_analytics_workspace_id = var.registros_centralizados ? azurerm_log_analytics_workspace.logs[0].id : null
 }
 
 # Secretos de Strapi generados aquí: no hay que crearlos ni pegarlos a mano.

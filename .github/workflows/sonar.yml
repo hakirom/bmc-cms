@@ -1,0 +1,24 @@
+name: Análisis de código
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonar:
+    name: SonarQube Cloud
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Historial completo: Sonar lo necesita para atribuir el código nuevo
+          # y calcular la calidad de lo que cambia, no solo del total.
+          fetch-depth: 0
+
+      - name: Analizar
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
